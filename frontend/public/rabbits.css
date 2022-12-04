@@ -21,6 +21,9 @@ body {
     color: palevioletred;
     font-family: monospace;
 }
+#header-timeline > div {
+    cursor: help;
+}
 .timeline-blank {
     background: transparent;
     overflow: hidden;
