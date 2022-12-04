@@ -9,7 +9,7 @@ pipeline {
             steps {
                 git([
                     branch: env.BRANCH == null ? 'main' : env.BRANCH,
-                    credentialsId: 'mewore',
+                    credentialsId: 'jenkins-ssh',
                     url: 'git@github.com:mewore/mewore-web.git',
                 ])
                 sh 'java -version'
