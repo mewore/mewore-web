@@ -59,19 +59,20 @@ pipeline {
                     ])
                 }
             }
-            stage('Cobertura Report') {
-                steps {
-                    cobertura([
-                        coberturaReportFile: '**/frontend/tests/coverage/cobertura-coverage.xml',
-                        conditionalCoverageTargets: '90, 50, 0',
-                        lineCoverageTargets: '95, 60, 0',
-                        methodCoverageTargets: '95, 60, 0',
-                        failUnhealthy: false,
-                        failUnstable: false,
-                        zoomCoverageChart: false,
-                    ])
-                }
-            }
+            // There are no frontend tests at the moment
+//             stage('Cobertura Report') {
+//                 steps {
+//                     cobertura([
+//                         coberturaReportFile: '**/frontend/tests/coverage/cobertura-coverage.xml',
+//                         conditionalCoverageTargets: '90, 50, 0',
+//                         lineCoverageTargets: '95, 60, 0',
+//                         methodCoverageTargets: '95, 60, 0',
+//                         failUnhealthy: false,
+//                         failUnstable: false,
+//                         zoomCoverageChart: false,
+//                     ])
+//                 }
+//             }
         } // parallel { ... }
         } // Post-build { ... }
     }
