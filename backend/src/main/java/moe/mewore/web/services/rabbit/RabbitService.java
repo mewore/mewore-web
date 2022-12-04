@@ -42,8 +42,8 @@ public class RabbitService {
         final int monthIndex = month == null ? 0 : getMonthIndex(daysByMonth, month);
         final List<ImageDay> rabbitDays =
                 monthIndex < 0 ? Collections.emptyList() : daysByMonth.get(monthIndex).getValue();
-        final int previousMonthIndex = monthIndex < 0 ? getGreaterMonthIndex(daysByMonth, month) : monthIndex - 1;
-        final Map<String, String> replacements = getHtmlTemplateValues(monthIndex, previousMonthIndex, daysByMonth);
+        final int futureMonthIndex = monthIndex < 0 ? getGreaterMonthIndex(daysByMonth, month) : monthIndex - 1;
+        final Map<String, String> replacements = getHtmlTemplateValues(monthIndex, futureMonthIndex, daysByMonth);
 
         final StringBuilder rabbitDayTemplate = new StringBuilder();
         final AtomicReference<Boolean> isInRabbitDayTemplate = new AtomicReference<>(false);
@@ -138,41 +138,41 @@ public class RabbitService {
                 .orElseThrow(() -> new NotFoundException("Day '" + name + "' does not have an hour " + hour));
     }
 
-    private static Map<String, String> getHtmlTemplateValues(final int monthIndex, final int previousMonthIndex,
+    private static Map<String, String> getHtmlTemplateValues(final int monthIndex, final int futureMonthIndex,
             final List<Map.Entry<String, List<ImageDay>>> daysByMonth) {
 
         final Map<String, String> result = new HashMap<>();
-        result.put("[PREVIOUS_MONTH_NAME]", previousMonthIndex < 0
+        result.put("[NEXT_MONTH_NAME]", futureMonthIndex < 0
                 ? "No newer rabbits"
-                : getMonthDisplayName(daysByMonth.get(previousMonthIndex).getKey()));
+                : getMonthDisplayName(daysByMonth.get(futureMonthIndex).getKey()));
         result.put("[CURRENT_MONTH_NAME]",
                 monthIndex < 0 ? "No rabbits" : getMonthDisplayName(daysByMonth.get(monthIndex).getKey()));
-        final int nextMonthIndex = monthIndex < 0 ? previousMonthIndex + 1 : monthIndex + 1;
-        result.put("[NEXT_MONTH_NAME]", nextMonthIndex >= daysByMonth.size()
+        final int pastMonthIndex = monthIndex < 0 ? futureMonthIndex + 1 : monthIndex + 1;
+        result.put("[PREVIOUS_MONTH_NAME]", pastMonthIndex >= daysByMonth.size()
                 ? "No older rabbits"
-                : getMonthDisplayName(daysByMonth.get(nextMonthIndex).getKey()));
+                : getMonthDisplayName(daysByMonth.get(pastMonthIndex).getKey()));
 
-        final int previousRabbitCount = daysByMonth.subList(0, previousMonthIndex + 1)
+        final int pastRabbitCount = daysByMonth.subList(pastMonthIndex, daysByMonth.size())
                 .parallelStream()
                 .mapToInt(a -> a.getValue().parallelStream().mapToInt(ImageDay::getImageCount).sum())
                 .sum();
-        result.put("[PREVIOUS_RABBITS_COUNT]", String.valueOf(previousRabbitCount));
+        result.put("[PREVIOUS_RABBITS_COUNT]", String.valueOf(pastRabbitCount));
         final int currentRabbitCount = monthIndex < 0
                 ? 0
                 : daysByMonth.get(monthIndex).getValue().parallelStream().mapToInt(ImageDay::getImageCount).sum();
         result.put("[CURRENT_RABBITS_COUNT]", String.valueOf(currentRabbitCount));
-        final int nextRabbitCount = daysByMonth.subList(nextMonthIndex, daysByMonth.size())
+        final int futureRabbitCount = daysByMonth.subList(0, futureMonthIndex + 1)
                 .parallelStream()
                 .mapToInt(a -> a.getValue().parallelStream().mapToInt(ImageDay::getImageCount).sum())
                 .sum();
-        result.put("[NEXT_RABBITS_COUNT]", String.valueOf(nextRabbitCount));
-        result.put("PREVIOUS_RABBITS_TAG", previousRabbitCount == 0 ? "span" : "a");
-        result.put("NEXT_RABBITS_TAG", nextRabbitCount == 0 ? "span" : "a");
+        result.put("[NEXT_RABBITS_COUNT]", String.valueOf(futureRabbitCount));
+        result.put("PREVIOUS_RABBITS_TAG", pastRabbitCount == 0 ? "span" : "a");
+        result.put("NEXT_RABBITS_TAG", futureRabbitCount == 0 ? "span" : "a");
 
         result.put("[PREVIOUS_RABBITS_MONTH]",
-                previousMonthIndex <= 0 ? "" : "?month=" + daysByMonth.get(previousMonthIndex).getKey());
+                pastMonthIndex >= daysByMonth.size() ? "" : "?month=" + daysByMonth.get(pastMonthIndex).getKey());
         result.put("[NEXT_RABBITS_MONTH]",
-                nextMonthIndex >= daysByMonth.size() ? "" : "?month=" + daysByMonth.get(nextMonthIndex).getKey());
+                futureMonthIndex <= 0 ? "" : "?month=" + daysByMonth.get(futureMonthIndex).getKey());
 
         return result;
     }

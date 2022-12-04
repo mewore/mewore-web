@@ -77,16 +77,16 @@ class RabbitServiceTest {
 
         final String result = rabbitService.getIndexPage("/api/rabbits", "2022-11").collect(Collectors.joining("\n"));
         Assertions.assertEquals("""
-                PREVIOUS_MONTH_NAME: December 2022
+                PREVIOUS_MONTH_NAME: October 2022
                 CURRENT_MONTH_NAME: November 2022
-                NEXT_MONTH_NAME: October 2022
-                PREVIOUS_RABBITS_COUNT: 1
+                NEXT_MONTH_NAME: December 2022
+                PREVIOUS_RABBITS_COUNT: 9
                 CURRENT_RABBITS_COUNT: 2
-                NEXT_RABBITS_COUNT: 9
+                NEXT_RABBITS_COUNT: 1
                 PREVIOUS RABBITS TAG: a
                 NEXT RABBITS TAG: a
-                PREVIOUS_RABBITS_MONTH:\s
-                NEXT_RABBITS_MONTH: ?month=2022-10
+                PREVIOUS_RABBITS_MONTH: ?month=2022-10
+                NEXT_RABBITS_MONTH:\s
 
 
 
@@ -118,16 +118,16 @@ class RabbitServiceTest {
 
         final String result = rabbitService.getIndexPage("/api/rabbits", "2022-11").collect(Collectors.joining("\n"));
         Assertions.assertEquals("""
-                 PREVIOUS_MONTH_NAME: No newer rabbits
+                 PREVIOUS_MONTH_NAME: October 2022
                  CURRENT_MONTH_NAME: November 2022
-                 NEXT_MONTH_NAME: October 2022
-                 PREVIOUS_RABBITS_COUNT: 0
+                 NEXT_MONTH_NAME: No newer rabbits
+                 PREVIOUS_RABBITS_COUNT: 3
                  CURRENT_RABBITS_COUNT: 1
-                 NEXT_RABBITS_COUNT: 3
-                 PREVIOUS RABBITS TAG: span
-                 NEXT RABBITS TAG: a
-                 PREVIOUS_RABBITS_MONTH:\s
-                 NEXT_RABBITS_MONTH: ?month=2022-10
+                 NEXT_RABBITS_COUNT: 0
+                 PREVIOUS RABBITS TAG: a
+                 NEXT RABBITS TAG: span
+                 PREVIOUS_RABBITS_MONTH: ?month=2022-10
+                 NEXT_RABBITS_MONTH:\s
 
 
 
@@ -156,16 +156,16 @@ class RabbitServiceTest {
 
         final String result = rabbitService.getIndexPage("/api/rabbits", "2022-10").collect(Collectors.joining("\n"));
         Assertions.assertEquals("""
-                PREVIOUS_MONTH_NAME: November 2022
+                PREVIOUS_MONTH_NAME: No older rabbits
                 CURRENT_MONTH_NAME: October 2022
-                NEXT_MONTH_NAME: No older rabbits
-                PREVIOUS_RABBITS_COUNT: 4
+                NEXT_MONTH_NAME: November 2022
+                PREVIOUS_RABBITS_COUNT: 0
                 CURRENT_RABBITS_COUNT: 0
-                NEXT_RABBITS_COUNT: 0
-                PREVIOUS RABBITS TAG: a
-                NEXT RABBITS TAG: span
-                PREVIOUS_RABBITS_MONTH: ?month=2022-11
-                NEXT_RABBITS_MONTH:\s
+                NEXT_RABBITS_COUNT: 4
+                PREVIOUS RABBITS TAG: span
+                NEXT RABBITS TAG: a
+                PREVIOUS_RABBITS_MONTH:\s
+                NEXT_RABBITS_MONTH: ?month=2022-11
 
 
 
@@ -195,9 +195,9 @@ class RabbitServiceTest {
 
         final String result = rabbitService.getIndexPage("/api/rabbits", "2022-11").collect(Collectors.joining("\n"));
         Assertions.assertEquals("""
-                PREVIOUS_MONTH_NAME: No newer rabbits
+                PREVIOUS_MONTH_NAME: No older rabbits
                 CURRENT_MONTH_NAME: November 2022
-                NEXT_MONTH_NAME: No older rabbits
+                NEXT_MONTH_NAME: No newer rabbits
                 PREVIOUS_RABBITS_COUNT: 0
                 CURRENT_RABBITS_COUNT: 0
                 NEXT_RABBITS_COUNT: 0
@@ -225,9 +225,9 @@ class RabbitServiceTest {
 
         final String result = rabbitService.getIndexPage("/api/rabbits", "2022-10").collect(Collectors.joining("\n"));
         Assertions.assertEquals("""
-                PREVIOUS_MONTH_NAME: No newer rabbits
+                PREVIOUS_MONTH_NAME: No older rabbits
                 CURRENT_MONTH_NAME: No rabbits
-                NEXT_MONTH_NAME: No older rabbits
+                NEXT_MONTH_NAME: No newer rabbits
                 PREVIOUS_RABBITS_COUNT: 0
                 CURRENT_RABBITS_COUNT: 0
                 NEXT_RABBITS_COUNT: 0
