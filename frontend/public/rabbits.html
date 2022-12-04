@@ -1,0 +1,50 @@
+<head>
+    <link rel="stylesheet" href="rabbits.css" />
+    <link rel="stylesheet" href="common.css" />
+    <script src="rabbits.js" defer></script>
+</head>
+
+<body>
+    <div id="header">
+        <div id="header-horizontal">
+            <PREVIOUS_RABBITS_TAG id="go-left" class="arrow-link" href="/rabbits[PREVIOUS_RABBITS_MONTH]">
+                <svg width="30.602mm" height="35.336mm" version="1.1" viewBox="0 0 30.602 35.336"
+                    xmlns="http://www.w3.org/2000/svg" class="arrow">
+                    <g stroke-linejoin="round">
+                        <path
+                            d="m-1.6191e-4 17.668s16.59 17.668 30.601 17.668v-35.336c-14.827 0-30.601 17.668-30.601 17.668z"
+                            style="paint-order:stroke markers fill" />
+                    </g>
+                </svg>
+                <span>[PREVIOUS_MONTH_NAME]</span>
+            </PREVIOUS_RABBITS_TAG>
+            <div id="title">bnuy
+                <div id="subtitle">[CURRENT_MONTH_NAME]</div>
+            </div>
+            <NEXT_RABBITS_TAG id="go-right" class="arrow-link" href="/rabbits[NEXT_RABBITS_MONTH]">
+                <span>[NEXT_MONTH_NAME]</span>
+                <svg width="30.602mm" height="35.336mm" version="1.1" viewBox="0 0 30.602 35.336"
+                    xmlns="http://www.w3.org/2000/svg" class="arrow">
+                    <g stroke-linejoin="round">
+                        <path
+                            d="m30.601 17.668s-16.59-17.668-30.601-17.668v35.336c14.827 0 30.601-17.668 30.601-17.668z"
+                            style="paint-order:stroke markers fill" />
+                    </g>
+                </svg>
+            </NEXT_RABBITS_TAG>
+        </div>
+        <div id="header-timeline">
+            <div class="timeline-blank" style="flex: [PREVIOUS_RABBITS_COUNT];">[PREVIOUS_RABBITS_COUNT]</div>
+            <div class="timeline-full" style="flex: [CURRENT_RABBITS_COUNT];">[CURRENT_RABBITS_COUNT]</div>
+            <div class="timeline-blank" style="flex: [NEXT_RABBITS_COUNT];">[NEXT_RABBITS_COUNT]</div>
+        </div>
+    </div>
+    <div id="rabbit-container">
+        <!--RABBIT DAY-->
+        <div class="rabbit-day">
+            <!-- <div class="day-name">[NAME]</div> -->
+            <div class="day-thumbnail" style="background: url('[THUMBNAIL_URL]')">[LINKS]</div>
+        </div>
+        <!--RABBIT DAY-->
+    </div>
+</body>

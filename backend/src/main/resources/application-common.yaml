@@ -1,0 +1,11 @@
+spring:
+  resources:
+    static-locations: classpath:/static/
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore/mewore-web.p12
+    key-alias: mewore-web
+    key-store-password: YBw3jEfUrdooeckPt1id

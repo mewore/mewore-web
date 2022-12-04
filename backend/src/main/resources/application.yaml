@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active:
+      common
+rabbit:
+  diary:
+    location: '/home/mewore/projects/2d/rabbits/done'
+    auto-refresh:
+      delay-ms: 5000 # Delay in milliseconds between each day
+  page:
+    filename: 'rabbits.html'
+    size: 10

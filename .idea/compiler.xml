@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
+        </processorPath>
+        <module name="mewore-web.backend.test" />
+        <module name="mewore-web.imagediary.main" />
+        <module name="mewore-web.imagediary.test" />
+        <module name="mewore-web.backend.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="15">
+      <module name="imagediary" target="15" />
+      <module name="imagediary.frontend" target="15" />
+      <module name="imagediary.frontend.main" target="15" />
+      <module name="imagediary.frontend.test" target="15" />
+      <module name="imagediary.main" target="15" />
+      <module name="imagediary.test" target="15" />
+      <module name="web" target="15" />
+      <module name="web.frontend" target="15" />
+      <module name="web.frontend.main" target="15" />
+      <module name="web.frontend.test" target="15" />
+      <module name="web.main" target="15" />
+      <module name="web.test" target="15" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

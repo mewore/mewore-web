@@ -1,0 +1,8 @@
+server:
+  ssl:
+    key-store: ${MEWORE_WEB_KEYSTORE_FILENAME}
+    key-alias: ${MEWORE_WEB_KEYSTORE_ALIAS}
+    key-store-password: ${MEWORE_WEB_KEYSTORE_PASSWORD}
+rabbit:
+  diary:
+    location: ${MEWORE_WEB_RABBIT_DIARY_LOCATION}

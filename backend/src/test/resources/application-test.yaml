@@ -1,0 +1,7 @@
+# Same as local-h2, except that it does not have the H2 console
+spring:
+  main:
+    banner-mode: off
+logging:
+  level:
+    root: WARN
