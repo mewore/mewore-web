@@ -73,7 +73,7 @@ pipeline {
             steps {
                 sleep 20
                 script {
-                    if (fileExists(LOG_FILE)) {
+                    if (fileExists("${LOG_FILE}")) {
                         sh "tail -n 100 '${LOG_FILE}'"
                     } else {
                         error "The app does not have an output file '${LOG_FILE}'!"
