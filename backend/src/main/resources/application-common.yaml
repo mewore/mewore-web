@@ -2,7 +2,7 @@ spring:
   resources:
     static-locations: classpath:/static/
 server:
-  port: 8443
+  port: 9443
   ssl:
     enabled: true
     key-store-type: PKCS12

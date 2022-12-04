@@ -17,7 +17,7 @@ pipeline {
             'export MEWORE_WEB_RABBIT_DIARY_LOCATION="' + "${env.HOME}" + '/${MEWORE_WEB_RABBIT_DIARY_PATH}"',
             "nohup bash -c \"java -jar '${DOWNLOADED_JAR_NAME}' --spring.profiles.active=common,prod\" > '${LOG_FILE}' &"
         ].join(' && ')
-        PORT = "443"
+        PORT = "9443"
     }
 
     stages {
