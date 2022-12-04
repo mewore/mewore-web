@@ -11,13 +11,10 @@ pipeline {
         LOG_FILE="mewore-web-${env.BUILD_NUMBER}.log"
         DOWNLOADED_JAR_NAME = "${MEWORE_WEB_BUILD_JOBNAME}-${MEWORE_WEB_BUILD_NUMBER}-${JAR_NAME}"
         LAUNCH_COMMAND = [
-            'export MEWORE_WEB_KEYSTORE_FILENAME="' + "${env.HOME}" + '/${MEWORE_WEB_KEYSTORE_ALIAS}.jks"',
-            'export MEWORE_WEB_KEYSTORE_ALIAS="${MEWORE_WEB_KEYSTORE_ALIAS}"',
-            'export MEWORE_WEB_KEYSTORE_PASSWORD="${MEWORE_WEB_KEYSTORE_PASSWORD}"',
             'export MEWORE_WEB_RABBIT_DIARY_LOCATION="' + "${env.HOME}" + '/${MEWORE_WEB_RABBIT_DIARY_PATH}"',
             "nohup bash -c \"java -jar '${DOWNLOADED_JAR_NAME}' --spring.profiles.active=common,prod\" > '${LOG_FILE}' &"
         ].join(' && ')
-        PORT = "9443"
+        PORT = "8001"
     }
 
     stages {
@@ -60,15 +57,10 @@ pipeline {
         }
         stage('Launch') {
             steps {
-                withCredentials([
-                    usernamePassword(credentialsId: "${MEWORE_WEB_KEYSTORE_CREDENTIALS}",
-                        usernameVariable: 'MEWORE_WEB_KEYSTORE_ALIAS', passwordVariable: 'MEWORE_WEB_KEYSTORE_PASSWORD')
-                ]) {
-                    // https://devops.stackexchange.com/questions/1473/running-a-background-process-in-pipeline-job
-                    withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                        script {
-                            sh LAUNCH_COMMAND
-                        }
+                // https://devops.stackexchange.com/questions/1473/running-a-background-process-in-pipeline-job
+                withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+                    script {
+                        sh LAUNCH_COMMAND
                     }
                 }
             }
@@ -82,7 +74,7 @@ pipeline {
                     } else {
                         error "The app does not have an output file '${LOG_FILE}'!"
                     }
-                    sh "curl --insecure https://localhost:${PORT} | grep 'hi im mewore'"
+                    sh "curl http://localhost:${PORT} | grep 'hi im mewore'"
                 }
             }
         }

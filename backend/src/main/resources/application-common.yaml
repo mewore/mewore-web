@@ -2,9 +2,9 @@ spring:
   resources:
     static-locations: classpath:/static/
 server:
-  port: 9443
+  port: 8001
   ssl:
-    enabled: true
+    enabled: false
     key-store-type: PKCS12
     key-store: classpath:keystore/mewore-web.p12
     key-alias: mewore-web
