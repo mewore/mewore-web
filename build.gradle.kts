@@ -100,9 +100,11 @@ class TaskExecutionTimePreview : TaskExecutionListener, BuildListener {
             if (!formattedTime.contains(".")) {
                 formattedTime += ".0"
             }
+            val formatPrefix = if (taskState.failure == null) "" else "\\033[31;1;4m"
+            val formatSuffix = if (taskState.failure == null) "" else "\\033[0m"
             val prefix = (if (end - start <= 50) "" else "$formattedTime s").padStart(12)
-            val taskSign = if (taskState.failure == null) "✓" else "✖"
-            val line = "$prefix |${characters.joinToString("")}| $taskSign $task"
+            val taskSign = if (taskState.failure == null) " " else "x"
+            val line = "$formatPrefix$prefix |${characters.joinToString("")}| $taskSign $task$formatSuffix"
             lines.add(if (taskState.failure == null) line else "<span style=\"color: indianred\">$line</span>")
             println(line)
         }

@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "description": "Frontend of Image Diary",
     "scripts": {
-        "build": "rimraf ./dist && tsc & copy-and-watch public/** dist/ && wait",
+        "build": "rimraf ./dist && tsc && copy-and-watch public/** dist/ && wait",
         "build-prod": "npm run build",
         "watch": "rimraf ./dist && tsc --watch & copy-and-watch --watch public/** dist/ && wait",
         "test": "echo '[There are no frontend tests]'",

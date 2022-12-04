@@ -74,7 +74,7 @@ pipeline {
                     } else {
                         error "The app does not have an output file '${LOG_FILE}'!"
                     }
-                    sh "curl http://localhost:${PORT} | grep 'hi im mewore'"
+                    sh "if ! curl http://localhost:${PORT} | grep 'hi im mewore'; then echo 'Did not get the expected response!'; exit 1; fi"
                 }
             }
         }
