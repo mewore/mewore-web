@@ -10,10 +10,14 @@ pipeline {
     environment {
         LOG_FILE="mewore-web-${env.BUILD_NUMBER}.log"
         DOWNLOADED_JAR_NAME = "${MEWORE_WEB_BUILD_JOBNAME}-${MEWORE_WEB_BUILD_NUMBER}-${JAR_NAME}"
-        LAUNCH_COMMAND = 'export MEWORE_WEB_KEYSTORE_FILENAME="' + "${env.HOME}" +
-            '/${MEWORE_WEB_KEYSTORE_ALIAS}.p12"; export MEWORE_WEB_KEYSTORE_ALIAS="${MEWORE_WEB_KEYSTORE_ALIAS}"; export MEWORE_WEB_KEYSTORE_PASSWORD="${MEWORE_WEB_KEYSTORE_PASSWORD}"; ' +
+        LAUNCH_COMMAND = [
+            'export MEWORE_WEB_KEYSTORE_FILENAME="' + "${env.HOME}" + '/${MEWORE_WEB_KEYSTORE_ALIAS}.p12"',
+            'export MEWORE_WEB_KEYSTORE_ALIAS="${MEWORE_WEB_KEYSTORE_ALIAS}"',
+            'export MEWORE_WEB_KEYSTORE_PASSWORD="${MEWORE_WEB_KEYSTORE_PASSWORD}"',
+            'export MEWORE_WEB_RABBIT_DIARY_LOCATION="' + "${env.HOME}" + '/${MEWORE_WEB_RABBIT_DIARY_PATH}"',
             "nohup bash -c \"java -jar '${DOWNLOADED_JAR_NAME}' --spring.profiles.active=common,prod\" > '${LOG_FILE}' &"
-        PORT = "8443"
+        ].join(' && ')
+        PORT = "443"
     }
 
     stages {
