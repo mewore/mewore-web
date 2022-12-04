@@ -80,10 +80,10 @@ public class RabbitService {
         final List<String> links = new ArrayList<>(24);
         for (int hour = 0; hour < 24; hour++) {
             if (((imageMask >> hour) & 1) != 0) {
-                links.add(String.format("<a class=\"rabbit-link\" href=\"%s\" target=\"_blank\"></a>",
+                links.add(String.format("<a href=\"%s\" target=\"_blank\"></a>",
                         dayUrl + "/" + hour));
             } else {
-                links.add("<div class=\"rabbit-link\"></div>");
+                links.add("<div></div>");
             }
         }
         return template.replace("[NAME]", day.getDate())

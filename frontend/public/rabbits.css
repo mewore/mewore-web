@@ -95,7 +95,7 @@ span.arrow-link {
     display: flex;
     height: 128px;
 }
-.rabbit-link {
+.day-thumbnail > * {
     display: inline-block;
     min-width: 96px;
     background: rgba(255, 255, 255, 0.3);
@@ -103,85 +103,85 @@ span.arrow-link {
     transition: border-color 200ms, border-width 200ms;
     border: 1px solid transparent;
 }
-a.rabbit-link:hover {
+.day-thumbnail > a:hover {
     background: transparent;
     border: 5px solid black;
 }
-a.rabbit-link:hover:nth-child(1) {
+.day-thumbnail > a:hover:nth-child(1) {
     border-color: crimson;
 }
-a.rabbit-link:hover:nth-child(2) {
+.day-thumbnail > a:hover:nth-child(2) {
     border-color: crimson;
 }
-a.rabbit-link:hover:nth-child(3) {
+.day-thumbnail > a:hover:nth-child(3) {
     border-color: orange;
 }
-a.rabbit-link:hover:nth-child(4) {
+.day-thumbnail > a:hover:nth-child(4) {
     border-color: orange;
 }
-a.rabbit-link:hover:nth-child(5) {
+.day-thumbnail > a:hover:nth-child(5) {
     border-color: yellow;
     border-right-color: black;
     border-bottom-color: black;
 }
-a.rabbit-link:hover:nth-child(6) {
+.day-thumbnail > a:hover:nth-child(6) {
     border-color: yellow;
     border-right-color: black;
     border-bottom-color: black;
 }
-a.rabbit-link:hover:nth-child(7) {
+.day-thumbnail > a:hover:nth-child(7) {
     border-color: olive;
 }
-a.rabbit-link:hover:nth-child(8) {
+.day-thumbnail > a:hover:nth-child(8) {
     border-color: olive;
 }
-a.rabbit-link:hover:nth-child(9) {
+.day-thumbnail > a:hover:nth-child(9) {
     border-color: aquamarine;
 }
-a.rabbit-link:hover:nth-child(10) {
+.day-thumbnail > a:hover:nth-child(10) {
     border-color: aquamarine;
 }
-a.rabbit-link:hover:nth-child(11) {
+.day-thumbnail > a:hover:nth-child(11) {
     border-color: teal;
     border-top-color: red;
 }
-a.rabbit-link:hover:nth-child(12) {
+.day-thumbnail > a:hover:nth-child(12) {
     border-color: teal;
     border-top-color: red;
 }
-a.rabbit-link:hover:nth-child(13) {
+.day-thumbnail > a:hover:nth-child(13) {
     border-color: cornflowerblue;
 }
-a.rabbit-link:hover:nth-child(14) {
+.day-thumbnail > a:hover:nth-child(14) {
     border-color: cornflowerblue;
 }
-a.rabbit-link:hover:nth-child(15) {
+.day-thumbnail > a:hover:nth-child(15) {
     border-color: darkblue;
 }
-a.rabbit-link:hover:nth-child(16) {
+.day-thumbnail > a:hover:nth-child(16) {
     border-color: darkblue;
 }
-a.rabbit-link:hover:nth-child(17) {
+.day-thumbnail > a:hover:nth-child(17) {
     border-color: blueviolet;
 }
-a.rabbit-link:hover:nth-child(18) {
+.day-thumbnail > a:hover:nth-child(18) {
     border-color: blueviolet;
 }
-a.rabbit-link:hover:nth-child(19) {
+.day-thumbnail > a:hover:nth-child(19) {
     border-color: purple;
 }
-a.rabbit-link:hover:nth-child(20) {
+.day-thumbnail > a:hover:nth-child(20) {
     border-color: purple;
 }
-a.rabbit-link:hover:nth-child(21) {
+.day-thumbnail > a:hover:nth-child(21) {
     border-color: magenta;
 }
-a.rabbit-link:hover:nth-child(22) {
+.day-thumbnail > a:hover:nth-child(22) {
     border-color: magenta;
 }
-a.rabbit-link:hover:nth-child(23) {
+.day-thumbnail > a:hover:nth-child(23) {
     border-color: gray;
 }
-a.rabbit-link:hover:nth-child(24) {
+.day-thumbnail > a:hover:nth-child(24) {
     border-color: gray;
 }

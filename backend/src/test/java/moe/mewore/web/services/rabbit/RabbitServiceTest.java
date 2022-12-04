@@ -93,11 +93,11 @@ class RabbitServiceTest {
 
                 NAME: 2022-11-01
                 THUMBNAIL_URL: /api/rabbits/2022-11-01/thumbnail.png
-                LINKS: <a class="rabbit-link" href="/api/rabbits/2022-11-01/0" target="_blank"></a><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div>
+                LINKS: <a href="/api/rabbits/2022-11-01/0" target="_blank"></a><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                             
                 NAME: 2022-11-02
                 THUMBNAIL_URL: /api/rabbits/2022-11-02/thumbnail.png
-                LINKS: <div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><a class="rabbit-link" href="/api/rabbits/2022-11-02/10" target="_blank"></a><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div>
+                LINKS: <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><a href="/api/rabbits/2022-11-02/10" target="_blank"></a><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                    """.trim(), result.trim());
     }
 
@@ -134,7 +134,7 @@ class RabbitServiceTest {
 
                  NAME: 2022-11-01
                  THUMBNAIL_URL: /api/rabbits/2022-11-01/thumbnail.png
-                 LINKS: <a class="rabbit-link" href="/api/rabbits/2022-11-01/0" target="_blank"></a><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div>
+                 LINKS: <a href="/api/rabbits/2022-11-01/0" target="_blank"></a><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                    """.trim(), result.trim());
     }
 
@@ -172,15 +172,15 @@ class RabbitServiceTest {
 
                 NAME: 2022-10-01
                 THUMBNAIL_URL: /api/rabbits/2022-10-01/thumbnail.png
-                LINKS: <div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div>
+                LINKS: <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 
                 NAME: 2022-10-02
                 THUMBNAIL_URL: /api/rabbits/2022-10-02/thumbnail.png
-                LINKS: <div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div>
+                LINKS: <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 
                 NAME: 2022-10-03
                 THUMBNAIL_URL: /api/rabbits/2022-10-03/thumbnail.png
-                LINKS: <div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div>
+                LINKS: <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                    """.trim(), result.trim());
     }
 
@@ -211,7 +211,7 @@ class RabbitServiceTest {
                 
                 NAME: 2022-11-01
                 THUMBNAIL_URL: /api/rabbits/2022-11-01/thumbnail.png
-                LINKS: <div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div><div class="rabbit-link"></div>
+                LINKS: <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
 
                    """.trim(), result.trim());
     }
