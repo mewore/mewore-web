@@ -17,6 +17,6 @@ public class RabbitSettingsService {
     @Value("${rabbit.diary.auto-refresh.delay-ms}")
     private long autoRefreshDelayMs;
 
-    @Value("${rabbit.page.filename}")
+    @Value("${rabbit.page.path}")
     private String rabbitPageFilename;
 }

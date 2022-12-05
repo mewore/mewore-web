@@ -8,5 +8,5 @@ rabbit:
     auto-refresh:
       delay-ms: 5000 # Delay in milliseconds between each day
   page:
-    filename: 'rabbits.html'
+    path: 'rabbits/index.html'
     size: 10

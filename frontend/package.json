@@ -3,9 +3,9 @@
     "version": "0.1.0",
     "description": "Frontend of Image Diary",
     "scripts": {
-        "build": "rimraf ./dist && tsc && copy-and-watch public/** dist/ && wait",
+        "build": "rimraf ./dist/* && tsc && copy-and-watch \"public/**\" dist/",
         "build-prod": "npm run build",
-        "watch": "rimraf ./dist && tsc --watch & copy-and-watch --watch public/** dist/ && wait",
+        "watch": "rimraf ./dist/* && tsc --watch & sleep 1 && copy-and-watch --watch \"public/**\" dist/ & wait",
         "test": "echo '[There are no frontend tests]'",
         "test:unit:coverage": "echo '[There are no frontend tests]'",
         "lint": "echo '[There are no frontend linters]'"
