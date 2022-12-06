@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,18 +44,35 @@ public class RabbitService {
         final int futureMonthIndex = monthIndex < 0 ? getGreaterMonthIndex(daysByMonth, month) : monthIndex - 1;
         final Map<String, String> replacements = getHtmlTemplateValues(monthIndex, futureMonthIndex, daysByMonth);
 
-        final StringBuilder rabbitDayTemplate = new StringBuilder();
-        final AtomicReference<Boolean> isInRabbitDayTemplate = new AtomicReference<>(false);
-        return htmlFile.read().stream().map(line -> {
+        return htmlFile.read().stream().map(new RabbitTemplateLineMapper(rabbitDays, replacements, rabbitApiEndpoint));
+    }
+
+    @RequiredArgsConstructor
+    private static class RabbitTemplateLineMapper implements Function<String, String> {
+
+        private boolean isInRabbitDayTemplate = false;
+
+        private final StringBuilder rabbitDayTemplate = new StringBuilder();
+
+        private final List<ImageDay> rabbitDays;
+
+        private final Map<String, String> replacements;
+
+        private final String rabbitApiEndpoint;
+
+        @Override
+        public String apply(String line) {
+
             boolean hasJustFinishedConstructingTemplate = false;
             if (line.endsWith(RABBIT_DAY_MARKER)) {
-                if (isInRabbitDayTemplate.updateAndGet(value -> value == null || !value)) {
+                isInRabbitDayTemplate = !isInRabbitDayTemplate;
+                if (isInRabbitDayTemplate) {
                     return "";
                 } else {
                     hasJustFinishedConstructingTemplate = true;
                 }
             }
-            if (isInRabbitDayTemplate.get()) {
+            if (isInRabbitDayTemplate) {
                 rabbitDayTemplate.append(line).append('\n');
                 return "";
             }
@@ -69,7 +86,7 @@ public class RabbitService {
             return rabbitDays.parallelStream()
                     .map(day -> applyDayToTemplate(day, template, rabbitApiEndpoint))
                     .collect(Collectors.joining("\n"));
-        });
+        }
     }
 
     private static String applyDayToTemplate(final ImageDay day, final String template,
