@@ -102,6 +102,28 @@ class RabbitServiceTest {
     }
 
     @Test
+    void testGetIndexPage_noRabbits() throws NotFoundException, IOException {
+        when(rabbitHtmlTemplateService.getRabbitHtmlTemplateReader()).thenReturn(() -> List.of(TEMPLATE_LINES));
+        final ImageDiary rabbitDiary = mock(ImageDiary.class);
+        when(rabbitDiaryService.getRabbitDiary()).thenReturn(rabbitDiary);
+        when(rabbitDiary.getDaysByMonthReversed()).thenReturn(Collections.emptyList());
+
+        final String result = rabbitService.getIndexPage("/api/rabbits", "2022-11").collect(Collectors.joining("\n"));
+        Assertions.assertEquals("""
+                PREVIOUS_MONTH_NAME: No older rabbits
+                CURRENT_MONTH_NAME: No rabbits
+                NEXT_MONTH_NAME: No newer rabbits
+                PREVIOUS_RABBITS_COUNT: 0
+                CURRENT_RABBITS_COUNT: 0
+                NEXT_RABBITS_COUNT: 0
+                PREVIOUS RABBITS TAG: span
+                NEXT RABBITS TAG: span
+                PREVIOUS_RABBITS_MONTH:\s
+                NEXT_RABBITS_MONTH:\s
+                   """.trim(), result.trim());
+    }
+
+    @Test
     void testGetIndexPage_noMoreRecent() throws NotFoundException, IOException {
         when(rabbitHtmlTemplateService.getRabbitHtmlTemplateReader()).thenReturn(() -> List.of(TEMPLATE_LINES));
         final ImageDiary rabbitDiary = mock(ImageDiary.class);

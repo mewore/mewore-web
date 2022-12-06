@@ -3,7 +3,6 @@ package moe.mewore.web.services.rabbit;
 import lombok.RequiredArgsConstructor;
 import moe.mewore.imagediary.ImageDay;
 import moe.mewore.web.exceptions.NotFoundException;
-import moe.mewore.web.services.util.FileService;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Service;
@@ -39,7 +38,7 @@ public class RabbitService {
                         .orElseThrow(() -> new NotFoundException("No rabbit HTML file present"));
         final List<Map.Entry<String, List<ImageDay>>> daysByMonth =
                 rabbitDiaryService.getRabbitDiary().getDaysByMonthReversed();
-        final int monthIndex = month == null ? 0 : getMonthIndex(daysByMonth, month);
+        final int monthIndex = month == null ? Math.min(daysByMonth.size() - 1, 0) : getMonthIndex(daysByMonth, month);
         final List<ImageDay> rabbitDays =
                 monthIndex < 0 ? Collections.emptyList() : daysByMonth.get(monthIndex).getValue();
         final int futureMonthIndex = monthIndex < 0 ? getGreaterMonthIndex(daysByMonth, month) : monthIndex - 1;
@@ -80,8 +79,7 @@ public class RabbitService {
         final List<String> links = new ArrayList<>(24);
         for (int hour = 0; hour < 24; hour++) {
             if (((imageMask >> hour) & 1) != 0) {
-                links.add(String.format("<a href=\"%s\" target=\"_blank\"></a>",
-                        dayUrl + "/" + hour));
+                links.add(String.format("<a href=\"%s\" target=\"_blank\"></a>", dayUrl + "/" + hour));
             } else {
                 links.add("<div></div>");
             }

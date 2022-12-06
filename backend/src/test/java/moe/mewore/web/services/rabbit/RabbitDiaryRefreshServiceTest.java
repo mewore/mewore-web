@@ -74,6 +74,20 @@ class RabbitDiaryRefreshServiceTest {
     }
 
     @Test
+    void testSetUp_keepRabbitDaysUpToDate_noDays() throws InterruptedException {
+        rabbitDiaryRefreshService.setUp();
+        verify(taskExecutor).execute(runnableCaptor.capture());
+
+        when(rabbitDiaryService.getRabbitDiary()).thenReturn(imageDiary);
+        when(imageDiary.getDaysReversed()).thenReturn(List.of());
+        when(rabbitSettingsService.getAutoRefreshDelayMs()).thenReturn(88L);
+        runnableCaptor.getValue().run();
+
+        verify(rabbitSettingsService).getAutoRefreshDelayMs();
+        verify(timeService).sleep(88L, TimeUnit.MILLISECONDS);
+    }
+
+    @Test
     void testSetUp_keepRabbitDaysUpToDate_RuntimeException() throws InterruptedException {
         rabbitDiaryRefreshService.setUp();
         verify(taskExecutor).execute(runnableCaptor.capture());
