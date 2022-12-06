@@ -36,14 +36,11 @@ public class SpringApplicationVerifier {
         final @Nullable String logFilePath = System.getenv("LOG_FILE");
         if (logFilePath != null) {
             final File logFile = new File(logFilePath);
-            if (logFile.isFile()) {
-                try (final ApplicationOutput applicationOutput = new ApplicationLogOutput(logFile)) {
-                    verify(applicationOutput);
-                    return;
-                }
+            LOGGER.info("Using the 'LOG_FILE' environment variable: " + logFilePath);
+            try (final ApplicationOutput applicationOutput = new ApplicationLogOutput(logFile)) {
+                verify(applicationOutput);
+                return;
             }
-            LOGGER.warn("The 'LOG_FILE' environment variable has been set to " + logFilePath +
-                    " but there is no such file!");
         }
 
         final String protocol = Optional.ofNullable(System.getenv("PROTOCOL")).orElseGet(() -> {
