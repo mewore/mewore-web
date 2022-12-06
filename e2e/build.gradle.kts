@@ -22,7 +22,7 @@ dependencies {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "moe.mewore.e2e.SpringJarVerifier"
+        attributes["Main-Class"] = "moe.mewore.e2e.SpringApplicationVerifier"
     }
 
     val sourcesMain = sourceSets.main.get()

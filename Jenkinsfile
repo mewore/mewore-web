@@ -82,6 +82,7 @@ pipeline {
             archiveArtifacts([
                 artifacts: [
                     'build/libs/**/*.jar',
+                    'e2e/build/libs/**/*.jar',
                     ['backend'].collect({it + '/build/reports/spotbugs/spotbugs-' + it + '.html'})
                 ].flatten().join(','),
                 fingerprint: true,
