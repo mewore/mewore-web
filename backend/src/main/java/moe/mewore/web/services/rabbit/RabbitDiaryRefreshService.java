@@ -1,9 +1,9 @@
 package moe.mewore.web.services.rabbit;
 
-import moe.mewore.web.services.util.TimeService;
 import lombok.RequiredArgsConstructor;
 import moe.mewore.imagediary.ImageDay;
 import moe.mewore.imagediary.ImageDiary;
+import moe.mewore.web.services.util.TimeService;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -31,17 +31,22 @@ public class RabbitDiaryRefreshService {
     private void keepRabbitDaysUpToDate() {
         final ImageDiary rabbitDiary = rabbitDiaryService.getRabbitDiary();
         final List<ImageDay> days = rabbitDiary.getDaysReversed();
-        for (final ImageDay day : days) {
-            try {
-                day.refresh();
-                timeService.sleep(rabbitSettingsService.getAutoRefreshDelayMs(), TimeUnit.MILLISECONDS);
-            } catch (final RuntimeException e) {
-                e.printStackTrace();
-            } catch (final InterruptedException e) {
-                System.out.println("The rabbit background refresher has been interrupted.");
-                Thread.currentThread().interrupt();
-                return;
+        try {
+            for (final ImageDay day : days) {
+                try {
+                    day.refresh();
+                    timeService.sleep(rabbitSettingsService.getAutoRefreshDelayMs(), TimeUnit.MILLISECONDS);
+                } catch (final RuntimeException e) {
+                    e.printStackTrace();
+                }
             }
+            if (days.isEmpty()) {
+                timeService.sleep(rabbitSettingsService.getAutoRefreshDelayMs(), TimeUnit.MILLISECONDS);
+            }
+        } catch (final InterruptedException e) {
+            System.out.println("The rabbit background refresher has been interrupted.");
+            Thread.currentThread().interrupt();
+            return;
         }
         System.out.printf("Rabbit diary size: %d MB (%d days)%n", rabbitDiary.getSize() / 1024L / 1024L, days.size());
         taskExecutor.execute(this::keepRabbitDaysUpToDate);
