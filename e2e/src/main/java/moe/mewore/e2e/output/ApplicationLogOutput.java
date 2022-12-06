@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.ClosedWatchServiceException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.StandardWatchEventKinds;
@@ -47,7 +48,7 @@ public class ApplicationLogOutput implements ApplicationOutput, AutoCloseable {
         if (watcher == null) {
             watcher = FileSystems.getDefault().newWatchService();
         }
-        final Path dir = file.toPath().getParent();
+        final Path dir = file.toPath().toAbsolutePath().getParent();
         logger.info("Watching directory: " + dir.toFile().getAbsolutePath());
         if (file.exists()) {
             logger.info("File " + file.getAbsolutePath() + " already exists");
@@ -75,8 +76,10 @@ public class ApplicationLogOutput implements ApplicationOutput, AutoCloseable {
         final WatchKey key;
         try {
             key = watcher.take();
-        } catch (final InterruptedException x) {
+        } catch (final InterruptedException e) {
             Thread.currentThread().interrupt();
+            return false;
+        } catch (final ClosedWatchServiceException e) {
             return false;
         }
 
