@@ -157,6 +157,10 @@ public class LocalImageDay implements ImageDay {
             return thumbnailBaos.toByteArray();
         } catch (final IOException e) {
             e.printStackTrace();
+        } catch (final IllegalStateException e) {
+            if (!"Shutdown in progress".equals(e.getMessage())) {
+                throw e;
+            }
         }
         return null;
     }

@@ -14,6 +14,7 @@ pipeline {
             'export MEWORE_WEB_RABBIT_DIARY_LOCATION="' + "${env.HOME}" + '/${MEWORE_WEB_RABBIT_DIARY_PATH}"',
             "nohup bash -c \"java -jar '${DOWNLOADED_JAR_NAME}' --spring.profiles.active=common,prod\" > '${LOG_FILE}' &"
         ].join(' && ')
+        PROTOCOL = "http"
         PORT = "8001"
     }
 
@@ -47,7 +48,7 @@ pipeline {
                         }
                     }
                     sleep 5
-                    curlStatus = sh returnStatus: true, script: "curl --insecure https://localhost:${PORT}"
+                    curlStatus = sh returnStatus: true, script: "curl --insecure ${PROTOCOL}://localhost:${PORT}"
                     if (curlStatus == 0) {
                         error "The app is still running or something else has taken up port :${PORT}! Kill it manually."
                     }
@@ -67,14 +68,8 @@ pipeline {
         }
         stage('Verify') {
             steps {
-                sleep 20
                 script {
-                    if (fileExists("${LOG_FILE}")) {
-                        sh "tail -n 100 '${LOG_FILE}'"
-                    } else {
-                        error "The app does not have an output file '${LOG_FILE}'!"
-                    }
-                    sh "if ! curl http://localhost:${PORT} | grep 'hi im mewore'; then echo 'Did not get the expected response!'; exit 1; fi"
+                    sh './gradlew --parallel --no-daemon e2e:run'
                 }
             }
         }

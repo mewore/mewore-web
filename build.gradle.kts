@@ -29,6 +29,19 @@ tasks.jar {
     }
 }
 
+tasks.create<JavaExec>("e2eTestJar") {
+    val e2eJarTask = tasks.getByPath(":e2e:jar")
+    dependsOn.add(tasks.jar)
+    dependsOn.add(e2eJarTask)
+    classpath = files(e2eJarTask)
+    mainClass.set("moe.mewore.e2e.SpringJarVerifier")
+
+    doFirst("Set the E2E test .jar arguments") {
+        // For some reason running this in the configuration phase makes the :backend:spotbugsMain configuration fail
+        args = listOf(files(tasks.jar).asPath, "--spring.profiles.active=common,e2e")
+    }
+}
+
 /**
  * Displays the execution times of the executed tasks, sorted by their start and with a "time window" view of their
  * execution periods.
@@ -100,11 +113,9 @@ class TaskExecutionTimePreview : TaskExecutionListener, BuildListener {
             if (!formattedTime.contains(".")) {
                 formattedTime += ".0"
             }
-            val formatPrefix = if (taskState.failure == null) "" else "\\033[31;1;4m"
-            val formatSuffix = if (taskState.failure == null) "" else "\\033[0m"
             val prefix = (if (end - start <= 50) "" else "$formattedTime s").padStart(12)
             val taskSign = if (taskState.failure == null) " " else "x"
-            val line = "$formatPrefix$prefix |${characters.joinToString("")}| $taskSign $task$formatSuffix"
+            val line = "$prefix |${characters.joinToString("")}| $taskSign $task"
             lines.add(if (taskState.failure == null) line else "<span style=\"color: indianred\">$line</span>")
             println(line)
         }

@@ -99,8 +99,6 @@ tasks.generateTypeScript {
 }
 
 tasks.bootJar {
-    dependsOn.add(tasks.spotbugsMain)
-    dependsOn.add(tasks.test)
     // I don't really need it
 //    dependsOn.add(tasks.generateTypeScript)
 }

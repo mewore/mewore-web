@@ -25,3 +25,4 @@ rootProject.name = "mewore-web"
 include("imagediary")
 include("backend")
 include("frontend")
+include("e2e")
