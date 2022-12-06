@@ -8,7 +8,8 @@ pipeline {
     }
 
     environment {
-        LOG_FILE="mewore-web-${env.BUILD_NUMBER}.log"
+        LOG_FILE_NAME="mewore-web-${env.BUILD_NUMBER}.log"
+        LOG_FILE="${env.WORKSPACE}/mewore-web-${env.BUILD_NUMBER}.log"
         DOWNLOADED_JAR_NAME = "${MEWORE_WEB_BUILD_JOBNAME}-${MEWORE_WEB_BUILD_NUMBER}-${JAR_NAME}"
         LAUNCH_COMMAND = [
             'export MEWORE_WEB_RABBIT_DIARY_LOCATION="' + "${env.HOME}" + '/${MEWORE_WEB_RABBIT_DIARY_PATH}"',
@@ -77,7 +78,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: "${LOG_FILE}", fingerprint: true
+            archiveArtifacts artifacts: "${LOG_FILE_NAME}", fingerprint: true
         }
     }
 }

@@ -1,19 +1,15 @@
 package moe.mewore.e2e;
 
-import moe.mewore.e2e.output.ApplicationLogOutput;
 import moe.mewore.e2e.output.ApplicationOutput;
 import moe.mewore.e2e.output.ProcessOutput;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
