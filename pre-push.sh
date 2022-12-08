@@ -19,8 +19,7 @@ files_to_push=$(git diff --name-only "${REMOTE}")
 
 if echo "${files_to_push}" | grep -q '.gradle'; then
     echo "Performing 'clean'..."
-    ./gradlew backend:clean || exit 2
-    ./gradlew clean || exit 2
+    ./gradlew --parallel clean backend:clean imagediary:clean frontend:clean || exit 2
 else
     echo "There are no changed Gradle project files so the 'clean' task will not be performed."
 fi

@@ -1,10 +1,30 @@
 plugins {
+    id("base")
     id("java")
     id("com.dorongold.task-tree").version("2.1.0")
 }
 
 group = "moe.mewore.web"
 version = "0.0.1-SNAPSHOT"
+
+repositories {
+    maven { setUrl("https://jitpack.io") }
+}
+
+configurations.create("toCopy")
+dependencies {
+    configurations.getByName("toCopy")("com.github.mewore.e2e:e2e:0.1.1")
+}
+
+val e2eDir = file("tools")
+val e2eName = "e2e.jar"
+val e2eFile = e2eDir.resolve(e2eName)
+val downloadE2eTask = tasks.create<Copy>("downloadE2e") {
+    from(files(configurations.getByName("toCopy")))
+    into(e2eDir)
+    rename { e2eName }
+    outputs.files(e2eFile)
+}
 
 tasks.jar {
     val backendJarTask = tasks.getByPath("backend:bootJar")
@@ -29,16 +49,19 @@ tasks.jar {
     }
 }
 
-tasks.create<JavaExec>("e2eTestJar") {
-    val e2eJarTask = tasks.getByPath(":e2e:jar")
+tasks.create<JavaExec>("e2eRun") {
     dependsOn.add(tasks.jar)
-    dependsOn.add(e2eJarTask)
-    classpath = files(e2eJarTask)
-    mainClass.set("moe.mewore.e2e.SpringJarVerifier")
+    dependsOn.add(downloadE2eTask)
+    classpath = files(e2eFile)
 
-    doFirst("Set the E2E test .jar arguments") {
-        // For some reason running this in the configuration phase makes the :backend:spotbugsMain configuration fail
-        args = listOf(files(tasks.jar).asPath, "--spring.profiles.active=common,e2e")
+    environment["E2E: /"] = "hi im mewore"
+    environment["E2E: /rabbits"] = "bnuy"
+
+    if ((System.getenv("LOG_FILE") ?: "").length + (System.getenv("PORT") ?: "").length == 0) {
+        doFirst("Set the E2E test .jar arguments") {
+            // For some reason running this in the configuration phase makes the :backend:spotbugsMain configuration fail
+            args = listOf(files(tasks.jar).asPath, "--spring.profiles.active=common,e2e")
+        }
     }
 }
 

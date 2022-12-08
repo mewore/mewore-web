@@ -70,8 +70,7 @@ pipeline {
         stage('Verify') {
             steps {
                 script {
-                    copyArtifacts(projectName: "${MEWORE_WEB_BUILD_JOBNAME}", selector: specific("${MEWORE_WEB_BUILD_NUMBER}"), filter: "e2e/build/libs/${E2E_JAR_NAME}")
-                    sh 'java -jar e2e/build/libs/${E2E_JAR_NAME}'
+                    sh './gradlew e2eRun'
                 }
             }
         }

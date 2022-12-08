@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     tasksToRun = ['frontend:frontendCheckDisabledLintRules', 'backend:bootJar', 'jar',
-                        'frontend:frontendTest', 'e2eTestJar']
+                        'frontend:frontendTest', 'e2eRun']
                     spotbugsCommands = []
                     for (javaModule in ['backend', 'imagediary']) {
                         tasksToRun.add(javaModule + ':spotbugsMain')
@@ -82,7 +82,6 @@ pipeline {
             archiveArtifacts([
                 artifacts: [
                     'build/libs/**/*.jar',
-                    'e2e/build/libs/**/*.jar',
                     ['backend'].collect({it + '/build/reports/spotbugs/spotbugs-' + it + '.html'})
                 ].flatten().join(','),
                 fingerprint: true,
