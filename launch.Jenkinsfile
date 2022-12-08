@@ -70,7 +70,7 @@ pipeline {
         stage('Verify') {
             steps {
                 script {
-                    sh './gradlew e2eRun'
+                    sh './gradlew e2eRunning'
                 }
             }
         }

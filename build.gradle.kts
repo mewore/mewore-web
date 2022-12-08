@@ -49,7 +49,7 @@ tasks.jar {
     }
 }
 
-tasks.create<JavaExec>("e2eRun") {
+tasks.create<JavaExec>("e2eJar") {
     dependsOn.add(tasks.jar)
     dependsOn.add(downloadE2eTask)
     classpath = files(e2eFile)
@@ -57,12 +57,18 @@ tasks.create<JavaExec>("e2eRun") {
     environment["E2E: /"] = "hi im mewore"
     environment["E2E: /rabbits"] = "bnuy"
 
-    if ((System.getenv("LOG_FILE") ?: "").length + (System.getenv("PORT") ?: "").length == 0) {
-        doFirst("Set the E2E test .jar arguments") {
-            // For some reason running this in the configuration phase makes the :backend:spotbugsMain configuration fail
-            args = listOf(files(tasks.jar).asPath, "--spring.profiles.active=common,e2e")
-        }
+    doFirst("Set the E2E test .jar arguments") {
+        // For some reason running this in the configuration phase makes the :backend:spotbugsMain configuration fail
+        args = listOf(files(tasks.jar).asPath, "--spring.profiles.active=common,e2e")
     }
+}
+
+tasks.create<JavaExec>("e2eRunning") {
+    dependsOn.add(downloadE2eTask)
+    classpath = files(e2eFile)
+
+    environment["E2E: /"] = "hi im mewore"
+    environment["E2E: /rabbits"] = "bnuy"
 }
 
 /**

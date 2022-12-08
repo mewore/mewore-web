@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     tasksToRun = ['frontend:frontendCheckDisabledLintRules', 'backend:bootJar', 'jar',
-                        'frontend:frontendTest', 'e2eRun']
+                        'frontend:frontendTest', 'e2eJar']
                     spotbugsCommands = []
                     for (javaModule in ['backend', 'imagediary']) {
                         tasksToRun.add(javaModule + ':spotbugsMain')
