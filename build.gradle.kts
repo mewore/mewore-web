@@ -53,6 +53,7 @@ tasks.create<JavaExec>("e2eJar") {
     dependsOn.add(tasks.jar)
     dependsOn.add(downloadE2eTask)
     classpath = files(e2eFile)
+    outputs.upToDateWhen { true }
 
     environment["E2E: /"] = "hi im mewore"
     environment["E2E: /rabbits"] = "bnuy"
