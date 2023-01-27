@@ -16,7 +16,7 @@ pipeline {
             "nohup bash -c \"java -jar '${DOWNLOADED_JAR_NAME}' --spring.profiles.active=common,prod\" > '${LOG_FILE}' &"
         ].join(' && ')
         PROTOCOL = "http"
-        PORT = "8011"
+        PORT = "8001"
     }
 
     stages {
@@ -38,7 +38,7 @@ pipeline {
         stage('Stop') {
             steps {
                 script {
-                    processOutput = sh returnStdout: true, script: "ps -C java -u '${env.USER}' -o pid=,command= | grep 'spring.profiles.active=common,prod' | awk '{print \$1;}'"
+                    processOutput = sh returnStdout: true, script: "ps -C java -u '${env.USER}' -o pid=,command= | grep 'mewore-web' | grep 'spring.profiles.active=common,prod' | awk '{print \$1;}'"
                     processOutput.split('\n').each { pid ->
                         if (pid.length() > 0) {
                             echo "Killing: ${pid}"
