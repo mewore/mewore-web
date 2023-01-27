@@ -42,7 +42,7 @@ pipeline {
                     processOutput.split('\n').each { pid ->
                         if (pid.length() > 0) {
                             echo "Killing: ${pid}"
-                            killStatus = sh returnStatus: true, script: "kill ${pid}"
+                            killStatus = sh returnStatus: true, script: "ps ${pid} && kill ${pid}"
                             if (killStatus != 0) {
                                 echo "Process ${pid} must have already been stopped."
                             }
