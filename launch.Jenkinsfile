@@ -49,7 +49,7 @@ pipeline {
                         }
                     }
                     sh 'i=1; while [[ "${i}" -lt 10 ]] && curl --insecure ' + "${PROTOCOL}://localhost:${PORT};" +
-                        ' do sleep 1; i = $(( i + 1 )); done'
+                        ' do sleep 1; i=$(( i + 1 )); done'
                     curlStatus = sh returnStatus: true, script: "curl --insecure ${PROTOCOL}://localhost:${PORT}"
                     if (curlStatus == 0) {
                         error "The app is still running or something else has taken up port :${PORT}! Kill it manually."
