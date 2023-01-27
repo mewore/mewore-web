@@ -16,7 +16,7 @@ pipeline {
             "nohup bash -c \"java -jar '${DOWNLOADED_JAR_NAME}' --spring.profiles.active=common,prod\" > '${LOG_FILE}' &"
         ].join(' && ')
         PROTOCOL = "http"
-        PORT = "8001"
+        PORT = "8011"
     }
 
     stages {

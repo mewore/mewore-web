@@ -2,4 +2,4 @@ spring:
   resources:
     static-locations: classpath:/static/
 server:
-  port: 8001
+  port: 8011
