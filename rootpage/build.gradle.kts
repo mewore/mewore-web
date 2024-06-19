@@ -77,10 +77,17 @@ val buildAllTask = tasks.create("buildAll") {
     setDependsOn(listOf(buildProd, ":rabbit-generator:generateRabbit"))
 }
 
+val generatedHtmlDir = buildDir.resolve("generated/html")
+
 tasks.create<Copy>("package") {
     setDependsOn(listOf(buildAllTask))
     from(projectDir.resolve(publicFolderName))
-    into(buildDir.resolve("generated/html"))
+    into(generatedHtmlDir)
+    exclude("*.kra")
+}
+
+tasks.create<Delete>("clean") {
+    delete(generatedHtmlDir)
 }
 
 tasks.create<com.github.gradle.node.npm.task.NpmTask>("buildWatch") {
