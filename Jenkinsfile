@@ -31,8 +31,11 @@ pipeline {
                     }
                     tasksToRun.add('rootpage:package')
 
-                    sh './gradlew --parallel ' + tasksToRun.join(' ') + ' --no-daemon && ' +
-                        spotbugsCommands.join(' && ')
+                    withEnv(['RABBIT_DIARY_DIR=/tmp/rabbit-diary']) {
+                        sh "mkdir -p \"\${RABBIT_DIARY_DIR}\" echo 'a' > \"\${RABBIT_DIARY_DIR}/fake-rabbit-file.txt\""
+                        sh './gradlew --parallel ' + tasksToRun.join(' ') + ' --no-daemon && ' +
+                            spotbugsCommands.join(' && ')
+                    }
                 }
             }
         }
