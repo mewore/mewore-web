@@ -1,3 +1,0 @@
-rabbit:
-  diary:
-    location: ${MEWORE_WEB_RABBIT_DIARY_LOCATION}

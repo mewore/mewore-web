@@ -1,6 +1,0 @@
-spring:
-  resources:
-    static-locations: file:./frontend/dist/
-    chain:
-      # live-frontend is meant for rapid frontend development so caching would be bad.
-      cache: false
