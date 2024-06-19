@@ -1,4 +1,22 @@
 body {
+    margin: 0;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+svg {
+    fill: currentColor;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+body {
     background: url("rabbit-image-bg.png");
     background-repeat: repeat-y;
 }
@@ -10,6 +28,7 @@ body {
     background: url("rabbit-bg-lightpink.png");
     display: flex;
     flex-direction: column;
+    z-index: 5;
 }
 #header-timeline {
     height: 1em;
@@ -19,17 +38,41 @@ body {
     border-right: none;
     text-align: center;
     color: palevioletred;
-    font-family: monospace;
+    font-weight: bold;
 }
 #header-timeline > div {
     cursor: help;
+    display: flex;
+    justify-content: center;
+    font-family: monospace;
+}
+#header-timeline > div:before, #header-timeline > div:after {
+    margin: 0 0.2em;
+    overflow: hidden;
+    text-wrap: nowrap;
+    font-family: sans-serif;
+    font-size: .8em;
+    opacity: .8;
+    font-weight: initial;
+}
+#header-timeline > div:after {
+    content: " drawings";
 }
 .timeline-blank {
     background: transparent;
     overflow: hidden;
 }
+.timeline-blank:first-child:before {
+    content: "Previous months: ";
+}
+.timeline-blank:last-child:before {
+    content: "Next months: ";
+}
 .timeline-full {
     background: lightpink;
+}
+.timeline-full:before {
+    content: "This month: ";
 }
 #header-horizontal {
     display: flex;
@@ -96,92 +139,110 @@ span.arrow-link {
     height: 128px;
 }
 .day-thumbnail > * {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     min-width: 96px;
     background: rgba(255, 255, 255, 0.3);
     box-sizing: border-box;
     transition: border-color 200ms, border-width 200ms;
     border: 1px solid transparent;
 }
-.day-thumbnail > a:hover {
+.day-thumbnail > div.inactive {
+    opacity: .2;
+}
+.day-thumbnail > div:hover {
     background: transparent;
     border: 5px solid black;
 }
-.day-thumbnail > a:hover:nth-child(1) {
+.day-thumbnail > div:hover:nth-child(1) {
     border-color: crimson;
 }
-.day-thumbnail > a:hover:nth-child(2) {
+.day-thumbnail > div:hover:nth-child(2) {
     border-color: crimson;
 }
-.day-thumbnail > a:hover:nth-child(3) {
+.day-thumbnail > div:hover:nth-child(3) {
     border-color: orange;
 }
-.day-thumbnail > a:hover:nth-child(4) {
+.day-thumbnail > div:hover:nth-child(4) {
     border-color: orange;
 }
-.day-thumbnail > a:hover:nth-child(5) {
+.day-thumbnail > div:hover:nth-child(5) {
     border-color: yellow;
     border-right-color: black;
     border-bottom-color: black;
 }
-.day-thumbnail > a:hover:nth-child(6) {
+.day-thumbnail > div:hover:nth-child(6) {
     border-color: yellow;
     border-right-color: black;
     border-bottom-color: black;
 }
-.day-thumbnail > a:hover:nth-child(7) {
+.day-thumbnail > div:hover:nth-child(7) {
     border-color: olive;
 }
-.day-thumbnail > a:hover:nth-child(8) {
+.day-thumbnail > div:hover:nth-child(8) {
     border-color: olive;
 }
-.day-thumbnail > a:hover:nth-child(9) {
+.day-thumbnail > div:hover:nth-child(9) {
     border-color: aquamarine;
 }
-.day-thumbnail > a:hover:nth-child(10) {
+.day-thumbnail > div:hover:nth-child(10) {
     border-color: aquamarine;
 }
-.day-thumbnail > a:hover:nth-child(11) {
+.day-thumbnail > div:hover:nth-child(11) {
     border-color: teal;
     border-top-color: red;
 }
-.day-thumbnail > a:hover:nth-child(12) {
+.day-thumbnail > div:hover:nth-child(12) {
     border-color: teal;
     border-top-color: red;
 }
-.day-thumbnail > a:hover:nth-child(13) {
+.day-thumbnail > div:hover:nth-child(13) {
     border-color: cornflowerblue;
 }
-.day-thumbnail > a:hover:nth-child(14) {
+.day-thumbnail > div:hover:nth-child(14) {
     border-color: cornflowerblue;
 }
-.day-thumbnail > a:hover:nth-child(15) {
+.day-thumbnail > div:hover:nth-child(15) {
     border-color: darkblue;
 }
-.day-thumbnail > a:hover:nth-child(16) {
+.day-thumbnail > div:hover:nth-child(16) {
     border-color: darkblue;
 }
-.day-thumbnail > a:hover:nth-child(17) {
+.day-thumbnail > div:hover:nth-child(17) {
     border-color: blueviolet;
 }
-.day-thumbnail > a:hover:nth-child(18) {
+.day-thumbnail > div:hover:nth-child(18) {
     border-color: blueviolet;
 }
-.day-thumbnail > a:hover:nth-child(19) {
+.day-thumbnail > div:hover:nth-child(19) {
     border-color: purple;
 }
-.day-thumbnail > a:hover:nth-child(20) {
+.day-thumbnail > div:hover:nth-child(20) {
     border-color: purple;
 }
-.day-thumbnail > a:hover:nth-child(21) {
+.day-thumbnail > div:hover:nth-child(21) {
     border-color: magenta;
 }
-.day-thumbnail > a:hover:nth-child(22) {
+.day-thumbnail > div:hover:nth-child(22) {
     border-color: magenta;
 }
-.day-thumbnail > a:hover:nth-child(23) {
+.day-thumbnail > div:hover:nth-child(23) {
     border-color: gray;
 }
-.day-thumbnail > a:hover:nth-child(24) {
+.day-thumbnail > div:hover:nth-child(24) {
     border-color: gray;
+}
+
+.day-thumbnail > div > a:not(.event-link) {
+    width: 100%;
+    flex: 1;
+}
+.day-thumbnail > div > .event-link {
+    background: rgba(255,255,255,0.5);
+    padding: .5em 0;
+    outline: blue solid 1px;
+    width: 100%;
+    text-align: center;
 }

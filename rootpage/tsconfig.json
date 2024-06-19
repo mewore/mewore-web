@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "es2021",
+        "module": "commonjs",
+        "rootDir": "./src",
+        "outDir": "./public/js",
+        "removeComments": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+
+        "noUnusedLocals": true,
+        "skipLibCheck": true
+    }
+}

@@ -1,14 +1,9 @@
 plugins {
-    id("java")
     id("com.github.node-gradle.node") version "3.0.0-rc5"
 }
 
 group = "moe.mewore.web"
 version = "0.0.1-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
 
 node {
     version.set("16.14.0")
@@ -18,7 +13,7 @@ node {
 
 val commonRootSourceFiles = listOf("build.gradle.kts", "package.json", "tsconfig.json")
 
-val frontendLint = tasks.create<com.github.gradle.node.npm.task.NpmTask>("frontendLint") {
+val lint = tasks.create<com.github.gradle.node.npm.task.NpmTask>("lint") {
     setDependsOn(listOf(tasks.npmInstall))
     inputs.dir("src")
     inputs.files(commonRootSourceFiles)
@@ -28,16 +23,16 @@ val frontendLint = tasks.create<com.github.gradle.node.npm.task.NpmTask>("fronte
     description = "Lints the frontend code."
 }
 
-tasks.create<SourceTask>("frontendCheckDisabledLintRules") {
+tasks.create<SourceTask>("checkDisabledLintRules") {
     source(listOf("src", "test").map { projectDir.resolve(it) })
     include(listOf("js", "ts", "jsx", "tsx", "vue").map { "**/*.$it" })
 
     outputs.upToDateWhen { true }
     val rulesThatShouldNotBeDisabled = setOf("no-debugger", "no-console", "jest/no-focused-tests")
     description =
-        "Ensures that the following ESLint rules have not been disabled: " + rulesThatShouldNotBeDisabled.joinToString(
-            ", "
-        )
+            "Ensures that the following ESLint rules have not been disabled: " + rulesThatShouldNotBeDisabled.joinToString(
+                    ", "
+            )
 
     val disablePattern = Regex("eslint-disable(-next-line)?\\s+(\\S*)")
 
@@ -61,47 +56,28 @@ tasks.create<SourceTask>("frontendCheckDisabledLintRules") {
     }
 }
 
-tasks.create<com.github.gradle.node.npm.task.NpmTask>("frontendBuild") {
+val buildProd = tasks.create<com.github.gradle.node.npm.task.NpmTask>("buildProd") {
+    val templateFolderInputTree: ConfigurableFileTree = fileTree("template")
+    templateFolderInputTree.exclude("js")
     setDependsOn(listOf(tasks.npmInstall))
     inputs.dir("src")
-    inputs.dir("public")
+    inputs.dir(templateFolderInputTree)
     inputs.files(commonRootSourceFiles)
-    outputs.dir("dist")
-    args.set(listOf("run", "build"))
-    description = "Builds the the frontend after ensuring the NPM dependencies are present."
-}
-
-val frontendBuildProd = tasks.create<com.github.gradle.node.npm.task.NpmTask>("frontendBuildProd") {
-    setDependsOn(listOf(tasks.npmInstall))
-    inputs.dir("src")
-    inputs.dir("public")
-    inputs.files(commonRootSourceFiles)
-    outputs.dir("dist")
+    outputs.dir("template/js")
     args.set(listOf("run", "build-prod"))
     description = "Builds the the frontend in PRODUCTION mode after ensuring the NPM dependencies are present."
 }
 
-tasks.create<com.github.gradle.node.npm.task.NpmTask>("frontendBuildWatch") {
+tasks.create("build") {
+    setDependsOn(listOf(buildProd))
+}
+
+tasks.create("buildAll") {
+    setDependsOn(listOf(buildProd))
+}
+
+tasks.create<com.github.gradle.node.npm.task.NpmTask>("buildWatch") {
     setDependsOn(listOf(tasks.npmInstall))
     args.set(listOf("run", "build-watch"))
     description = "Builds the the frontend after ensuring the NPM dependencies are present and watches for changes."
-}
-
-val frontendTest = tasks.create<com.github.gradle.node.npm.task.NpmTask>("frontendTest") {
-    setDependsOn(listOf(tasks.npmInstall))
-    inputs.dir("src")
-//    inputs.dir("tests")
-    inputs.files(commonRootSourceFiles)
-    outputs.dir("tests/coverage")
-    outputs.upToDateWhen { true }
-    args.set(listOf("run", "test:unit:coverage"))
-    description = "Runs the frontend unit tests."
-}
-
-tasks.jar {
-    setDependsOn(listOf(frontendBuildProd))
-    inputs.dir("dist")
-    outputs.dir("build")
-    from("dist")
-    into("static")
 }

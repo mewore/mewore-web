@@ -6,11 +6,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.awt.image.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -46,6 +42,10 @@ public class LocalImageDiary implements ImageDiary {
         for (final File location : locations) {
             final File @Nullable [] foundDirectories = location.listFiles(LocalImageDay::isDayDirectory);
             if (foundDirectories != null) {
+                System.out.println("Found these directories in location " + location + ": " +
+                                   Arrays.stream(foundDirectories)
+                                           .map(File::getName)
+                                           .collect(Collectors.joining(", ")));
                 for (final File directory : foundDirectories) {
                     currentDayNames.add(directory.getName());
                     days.computeIfAbsent(directory.getName(), key -> {
@@ -53,6 +53,8 @@ public class LocalImageDiary implements ImageDiary {
                         return new LocalImageDay(directory, readImageFunction, readTextFileFunction);
                     });
                 }
+            } else {
+                System.err.println("Found no directories in location " + location);
             }
         }
         if (days.keySet().retainAll(currentDayNames)) {

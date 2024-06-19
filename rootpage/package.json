@@ -1,0 +1,16 @@
+{
+    "name": "mewore-web-frontend",
+    "version": "0.1.0",
+    "description": "Frontend of Mewore Web",
+    "scripts": {
+        "build": "tsc",
+        "build-prod": "npm run build",
+        "watch": "tsc --watch",
+        "test": "echo '[There are no frontend tests]'",
+        "test:unit:coverage": "echo '[There are no frontend tests]'",
+        "lint": "echo '[There are no frontend linters]'"
+    },
+    "devDependencies": {
+        "typescript": "^4.9.3"
+    }
+}

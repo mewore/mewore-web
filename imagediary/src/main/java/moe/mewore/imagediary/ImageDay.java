@@ -6,6 +6,11 @@ public interface ImageDay {
 
     void refresh();
 
+    /**
+     * Generates the thumbnail only if it doesn't already exist.
+     */
+    void createThumbnailFile();
+
     byte @Nullable[] getImageData(int hour);
 
     @Nullable String getEvent(int hour);

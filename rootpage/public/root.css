@@ -1,4 +1,6 @@
 body {
+    margin: 0;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
     background: #002b36;
     color: #657b83;
     overflow-x: hidden;
@@ -61,6 +63,7 @@ body {
 }
 
 a {
+    text-decoration: none;
     color: #8c71e4;
 }
 a:visited {
@@ -73,7 +76,14 @@ a:visited {
 .blocklink > * {
     padding-right: 0.5em;
 }
+a:hover {
+    text-decoration: underline;
+}
 
 .slight-emphasis {
     color: #93a1a1;
+}
+
+svg {
+    fill: currentColor;
 }

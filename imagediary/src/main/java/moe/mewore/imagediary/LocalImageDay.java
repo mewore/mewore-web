@@ -52,23 +52,34 @@ public class LocalImageDay implements ImageDay {
     private final AtomicInteger eventMask = new AtomicInteger();
     private final String[] events = new String[24];
 
-    private long lastRefreshedAt = 0L;
+    private long lastRefreshedImagesAt = 0L;
+    private long lastRefreshedEventsAt = 0L;
 
     @Override
     public synchronized void refresh() {
-        final long now = System.currentTimeMillis();
-        if (now < lastRefreshedAt + REFRESH_COOLDOWN_MS) {
-            return;
-        }
-        lastRefreshedAt = System.currentTimeMillis();
         refreshImages();
         refreshEvents();
+    }
+
+    @Override
+    public synchronized void createThumbnailFile() {
+        final File thumbnailFile = dayDirectory.toPath().resolve("thumbnail.png").toFile();
+        if (!thumbnailFile.isFile()) {
+            refresh();
+            System.out.println("Saving thumbnail: " + thumbnailFile.getAbsolutePath());
+            try {
+                ImageIO.write(thumbnail, "png", thumbnailFile);
+            } catch (final IOException e) {
+                System.err.println("Failed to create thumbnail: " + thumbnailFile.getAbsolutePath());
+                e.printStackTrace();
+            }
+        }
     }
 
     @Synchronized("imageFiles")
     @Override
     public byte @Nullable [] getImageData(final int hour) {
-        refresh();
+        refreshImages();
         if (hour < 0 || hour >= imageFiles.length) {
             throw new IllegalArgumentException(
                     "The hour " + hour + " is outside of the allowed range: 0-" + (imageFiles.length - 1));
@@ -79,7 +90,7 @@ public class LocalImageDay implements ImageDay {
     @Synchronized("events")
     @Override
     public @Nullable String getEvent(final int hour) {
-        refresh();
+        refreshEvents();
         if (hour < 0 || hour >= events.length) {
             throw new IllegalArgumentException(
                     "The hour " + hour + " is outside of the allowed range: 0-" + (events.length - 1));
@@ -89,6 +100,11 @@ public class LocalImageDay implements ImageDay {
 
     @Synchronized("imageFiles")
     private void refreshImages() {
+        final long now = System.currentTimeMillis();
+        if (now < lastRefreshedImagesAt + REFRESH_COOLDOWN_MS) {
+            return;
+        }
+        lastRefreshedImagesAt = System.currentTimeMillis();
         final AtomicInteger imageMask = new AtomicInteger(0);
         final File @Nullable [] newImageFiles = dayDirectory.listFiles(this::isImage);
         if (newImageFiles == null || newImageFiles.length == 0) {
@@ -167,6 +183,11 @@ public class LocalImageDay implements ImageDay {
 
     @Synchronized("events")
     private void refreshEvents() {
+        final long now = System.currentTimeMillis();
+        if (now < lastRefreshedEventsAt + REFRESH_COOLDOWN_MS) {
+            return;
+        }
+        lastRefreshedEventsAt = System.currentTimeMillis();
         final File @Nullable [] eventFiles = dayDirectory.listFiles(this::isEvent);
         if (eventFiles != null && eventFiles.length > 0) {
             Arrays.stream(eventFiles).parallel().forEach(this::registerEvent);
@@ -205,16 +226,16 @@ public class LocalImageDay implements ImageDay {
 
     @Override
     public int getImageMask() {
-        int imageMask = 0;
         final File @Nullable [] currentImageFiles = dayDirectory.listFiles(this::isImage);
         if (currentImageFiles == null || currentImageFiles.length == 0) {
             System.err.println("Could not fetch any images in image day directory " + dayDirectory.getAbsolutePath());
-        } else {
-            for (final File imageFile : currentImageFiles) {
-                final Matcher nameMatcher = IMAGE_NAME_PATTERN.matcher(imageFile.getName());
-                if (nameMatcher.find()) {
-                    imageMask |= (1 << Integer.parseInt(nameMatcher.group(2)));
-                }
+            return 0;
+        }
+        int imageMask = 0;
+        for (final File imageFile : currentImageFiles) {
+            final Matcher nameMatcher = IMAGE_NAME_PATTERN.matcher(imageFile.getName());
+            if (nameMatcher.find()) {
+                imageMask |= (1 << Integer.parseInt(nameMatcher.group(2)));
             }
         }
         return imageMask;

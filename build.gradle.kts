@@ -1,76 +1,10 @@
 plugins {
     id("base")
-    id("java")
     id("com.dorongold.task-tree").version("2.1.0")
 }
 
 group = "moe.mewore.web"
 version = "0.0.1-SNAPSHOT"
-
-repositories {
-    maven { setUrl("https://jitpack.io") }
-}
-
-configurations.create("toCopy")
-dependencies {
-    configurations.getByName("toCopy")("com.github.mewore.e2e:e2e:0.1.1")
-}
-
-val e2eDir = file("tools")
-val e2eName = "e2e.jar"
-val e2eFile = e2eDir.resolve(e2eName)
-val downloadE2eTask = tasks.create<Copy>("downloadE2e") {
-    from(files(configurations.getByName("toCopy")))
-    into(e2eDir)
-    rename { e2eName }
-    outputs.files(e2eFile)
-}
-
-tasks.jar {
-    val backendJarTask = tasks.getByPath("backend:bootJar")
-    val jarTasksToMerge = listOf(backendJarTask, tasks.getByPath("frontend:jar"))
-    setDependsOn(setOf(jarTasksToMerge))
-    inputs.files(jarTasksToMerge)
-
-    entryCompression = ZipEntryCompression.STORED
-
-    doFirst("Read .jar files") {
-        val zipTrees = mutableListOf<FileTree>()
-        for (taskToMerge in jarTasksToMerge) {
-            zipTrees.addAll(taskToMerge.outputs.files.files.filter { file -> file.name.endsWith(".jar") }
-                .map { jarFile -> zipTree(jarFile) })
-        }
-        from(zipTrees)
-
-        val manifestFile = backendJarTask.outputs.files.files.filter { file -> file.name.endsWith(".jar") }
-            .flatMap { archive -> zipTree(archive).files.filter { jarFile -> jarFile.name == "MANIFEST.MF" } }.single()
-        println("Using the manifest file from the .jar output of task ${backendJarTask.path}: $manifestFile")
-        manifest = manifest.from(manifestFile)
-    }
-}
-
-tasks.create<JavaExec>("e2eJar") {
-    dependsOn.add(tasks.jar)
-    dependsOn.add(downloadE2eTask)
-    classpath = files(e2eFile)
-    outputs.upToDateWhen { true }
-
-    environment["E2E: /"] = "hi im mewore"
-    environment["E2E: /rabbits"] = "bnuy"
-
-    doFirst("Set the E2E test .jar arguments") {
-        // For some reason running this in the configuration phase makes the :backend:spotbugsMain configuration fail
-        args = listOf(files(tasks.jar).asPath, "--spring.profiles.active=common,e2e")
-    }
-}
-
-tasks.create<JavaExec>("e2eRunning") {
-    dependsOn.add(downloadE2eTask)
-    classpath = files(e2eFile)
-
-    environment["E2E: /"] = "hi im mewore"
-    environment["E2E: /rabbits"] = "bnuy"
-}
 
 /**
  * Displays the execution times of the executed tasks, sorted by their start and with a "time window" view of their
