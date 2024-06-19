@@ -23,8 +23,6 @@ pluginManagement {
 
 rootProject.name = "mewore-web"
 include("imagediary")
-include("backend")
 include("rootpage")
-include("e2e")
 include("rabbit-generator")
 include("rabbitpage")

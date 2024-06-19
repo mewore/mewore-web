@@ -9,10 +9,8 @@
         </processorPath>
         <module name="mewore-web.rabbit-generator.main" />
         <module name="mewore-web.rabbit-generator.test" />
-        <module name="mewore-web.backend.test" />
         <module name="mewore-web.imagediary.main" />
         <module name="mewore-web.imagediary.test" />
-        <module name="mewore-web.backend.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="15">

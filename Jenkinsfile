@@ -18,14 +18,18 @@ pipeline {
         stage('Build + Test') {
             steps {
                 script {
-                    tasksToRun = ['frontend:frontendCheckDisabledLintRules', 'backend:bootJar', 'jar',
-                        'frontend:frontendTest', 'e2eJar']
+                    tasksToRun = []
                     spotbugsCommands = []
-                    for (javaModule in ['backend', 'imagediary']) {
+                    for (javaModule in ['imagediary', 'rabbit-generator']) {
                         tasksToRun.add(javaModule + ':spotbugsMain')
                         tasksToRun.add(javaModule + ':test')
                         spotbugsCommands.add(copySpotbugsReportCmd(javaModule))
                     }
+                    for (htmlModule in ['rootpage', 'rabbitpage']) {
+                        tasksToRun.add(htmlModule + ':checkDisabledLintRules')
+                        tasksToRun.add(htmlModule + ':lint')
+                    }
+                    tasksToRun.add('rootpage:package')
 
                     sh './gradlew --parallel ' + tasksToRun.join(' ') + ' --no-daemon && ' +
                         spotbugsCommands.join(' && ')
