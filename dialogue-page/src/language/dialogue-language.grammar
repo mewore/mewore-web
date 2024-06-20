@@ -1,0 +1,77 @@
+//!RootElement
+
+@top Dialogue { (Label)* }
+
+LabelIdentifier { labelIdentifier }
+Label { LabelIdentifier LabelIdentifierColon { colonWithOptionalSpacesAround } lineEnd ConversationState* }
+
+//!block
+ConversationState { indent NpcStatement+ (dedent | eof) }
+
+
+//! TODO: Find a way to make this "spaces*" unnecessary
+NpcStatement { dash spaces? StatementVariationText ( spaces VariationSeparator spaces StatementVariationText )* spaces? (spaces LabelLink)? lineEnd spaces? UserReply* }
+UserReply { dashdash spaces? ReplyText spaces? (spaces LabelLink)? lineEnd ConversationState* spaces? }
+
+
+LabelLinkIdentifier { text }
+LabelLink { "#" spaces? LabelLinkIdentifier spaces? }
+
+
+VariationSeparator { "/" }
+StatementVariationText { npcStatementText }
+ReplyText { replyText }
+
+//!lineEnd
+
+lineEnd { newline | eof }
+
+//!context
+
+@context trackIndent from "../src/language/tokens.js"
+
+//!externalTokens
+
+@external tokens indentation from "../src/language/tokens.js" {
+  indent
+  dedent
+  blankLineStart
+}
+
+
+//!tokens
+@tokens {
+  spaces { $[ \t]+ }
+  newline { "\n" | "\r" }
+  eof { @eof }
+  Comment { "#" ![\n\r]+ }
+
+  word { ![ \t\n]+ }
+  nonCommentWord { ![ \t\n#] word? }
+  nonCommentWord2Plus { ![ \t\n#] word }
+  nonDashNonCommentWord { ![ \t\n#\-] | nonCommentWord2Plus }
+
+  nonDashNonSlashNonCommentWord { ![ \t\n#\-/] | nonCommentWord2Plus }
+  nonSlashNonCommentWord { ![ \t\n#/] | nonCommentWord2Plus }
+
+  text { word (spaces word)* }
+  npcStatementText {  nonDashNonSlashNonCommentWord ( spaces nonSlashNonCommentWord )* }
+  replyText { nonDashNonCommentWord ( spaces nonCommentWord )* }
+
+  labelIdentifierWord1 { ![ \t\n#:] }
+  labelIdentifierWord2Plus { ![ \t\n#] ![ \t\n]* ![ \t\n:] }
+  labelIdentifierWord { labelIdentifierWord1 | labelIdentifierWord2Plus }
+  labelIdentifier { labelIdentifierWord (spaces labelIdentifierWord)* }
+
+  colonWithOptionalSpacesAround { spaces* ":" spaces* }
+  dash { "- " }
+  dashdash { "- - " }
+}
+//!skip
+
+@skip {
+  //! TODO: Delete
+  blankLineStart spaces? Comment lineEnd |
+
+  blankLineStart spaces? lineEnd
+}

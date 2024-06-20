@@ -8,10 +8,19 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/dialogue-page" />
             <option value="$PROJECT_DIR$/imagediary" />
             <option value="$PROJECT_DIR$/rabbit-generator" />
             <option value="$PROJECT_DIR$/rabbitpage" />
             <option value="$PROJECT_DIR$/rootpage" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/dialogue-page" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/dialogue-page" />
           </set>
         </option>
       </GradleProjectSettings>

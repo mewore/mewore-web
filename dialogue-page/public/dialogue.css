@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+}
+
+#editor-container,
+#graph-container {
+    flex: 1;
+    max-width: 50vw;
+}
+
+.separator {
+    min-width: 1px;
+    min-height: 1px;
+    margin: 2px;
+    background: red;
+}
+
+.cm-editor {
+    height: 100%;
+}
+
+.cm-diagnostic {
+    max-width: 50vw;
+    /* welp... */
+    display: flex !important;
+    flex-direction: column;
+}
+
+.cm-diagnostic button {
+    opacity: 0.8;
+}
+
+.cm-diagnostic button:hover {
+    opacity: 1;
+}
+
+.cm-tooltip-hover button:not(:last-child) {
+    margin-bottom: 1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.cm-tooltip-hover button:not(:first-of-type) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+body {
+    overflow: hidden;
+}
+
+#graph-container {
+    overflow: hidden;
+    padding: 2em;
+}
+
+.dialogue-node {
+    position: absolute;
+    padding: 1em;
+    border-radius: 100%;
+    background: white;
+    border: 1px dashed red;
+}

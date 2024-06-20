@@ -25,7 +25,7 @@ pipeline {
                         tasksToRun.add(javaModule + ':test')
                         spotbugsCommands.add(copySpotbugsReportCmd(javaModule))
                     }
-                    for (htmlModule in ['rootpage', 'rabbitpage']) {
+                    for (htmlModule in ['rootpage', 'rabbitpage', 'dialogue-page']) {
                         tasksToRun.add(htmlModule + ':checkDisabledLintRules')
                         tasksToRun.add(htmlModule + ':lint')
                     }

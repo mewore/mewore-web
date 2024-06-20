@@ -56,15 +56,19 @@ tasks.create<SourceTask>("checkDisabledLintRules") {
     }
 }
 
-val publicFolderName = "public"
-val buildProd = tasks.create<com.github.gradle.node.npm.task.NpmTask>("buildProd") {
-    val publicFolderInputTree: ConfigurableFileTree = fileTree(publicFolderName)
-    publicFolderInputTree.exclude("js")
+val prepareGrammar = tasks.create<com.github.gradle.node.npm.task.NpmTask>("prepareGrammar") {
     setDependsOn(listOf(tasks.npmInstall))
+    inputs.files(commonRootSourceFiles, "src/language/dialogue-language.grammar")
+    outputs.dir("dist-language")
+    args.set(listOf("run", "prepare"))
+    description = "Builds the the frontend in PRODUCTION mode after ensuring the NPM dependencies are present."
+}
+
+val buildProd = tasks.create<com.github.gradle.node.npm.task.NpmTask>("buildProd") {
+    setDependsOn(listOf(tasks.npmInstall, prepareGrammar))
     inputs.dir("src")
-    inputs.dir(publicFolderInputTree)
     inputs.files(commonRootSourceFiles)
-    outputs.dir("$publicFolderName/js")
+    outputs.dir("template/js")
     args.set(listOf("run", "build-prod"))
     description = "Builds the the frontend in PRODUCTION mode after ensuring the NPM dependencies are present."
 }
@@ -73,25 +77,12 @@ tasks.create("build") {
     setDependsOn(listOf(buildProd))
 }
 
-val buildAllTask = tasks.create("buildAll") {
-    setDependsOn(listOf(buildProd, ":rabbit-generator:generateRabbit", ":dialogue-page:buildAll"))
-}
-
-val generatedHtmlDir = buildDir.resolve("generated/html")
-
-tasks.create<Copy>("package") {
-    setDependsOn(listOf(buildAllTask))
-    from(projectDir.resolve(publicFolderName))
-    into(generatedHtmlDir)
-    exclude("*.kra")
-}
-
-tasks.create<Delete>("clean") {
-    delete(generatedHtmlDir)
+tasks.create("buildAll") {
+    setDependsOn(listOf(buildProd))
 }
 
 tasks.create<com.github.gradle.node.npm.task.NpmTask>("buildWatch") {
     setDependsOn(listOf(tasks.npmInstall))
-    args.set(listOf("run", "build-watch"))
+    args.set(listOf("run", "watch"))
     description = "Builds the the frontend after ensuring the NPM dependencies are present and watches for changes."
 }
